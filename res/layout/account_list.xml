@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+
+	android:orientation="horizontal">
+		<TextView
+			android:id="@+id/account_name"
+			android:layout_width="140dip"
+			android:layout_height="22px"
+			android:textSize="15sp"
+			android:textColor="#3C3C3C"
+			 android:gravity="center|center_vertical" >
+		</TextView>
+		<TextView
+			android:id="@+id/amount"
+			android:layout_width="80dip"
+			android:layout_height="25px"
+			android:textColor="#00CC00"
+			android:textSize="15sp"
+			 android:gravity="center|center_vertical">
+		</TextView>
+		<TextView
+			android:id="@+id/account_time"
+			android:layout_width="fill_parent"
+			android:layout_height="25px"
+			android:textColor="#6495ED"
+			android:textSize="15sp"
+			 android:gravity="center|center_vertical">
+		</TextView>
+</LinearLayout>

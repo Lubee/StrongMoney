@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, MainActivity!</string>
+	<string name="app_name">评评记账</string>
+	<string name="accountname_title">名称</string>
+	<string name="accountamount_title">金额</string>
+	<string	name="accounttime_title">时间</string>
+	<string	name="browse_no_accounts">没有账目记录，从现在开始吧，养成良好的理财习惯！</string>
+  <string name="browse_no_items">没有记录！</string>
+  <string name="total_foot">当前收入：{0} 当前支出：{1} 余额：{2}</string>
+   <string name="edit_itemname">收支项：</string>
+  <string name="edit_amount">金    额：</string>
+  <string name="edit_time">时    间：</string>
+  <string name="edit_remark">备注：</string>
+  <string name="confirm">保存</string>
+  <string name="cancel">取消</string>
+</resources>
