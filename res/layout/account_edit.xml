@@ -4,6 +4,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
+	android:background="@drawable/list_bg"
 	android:layout_height="fill_parent">
 
 	<LinearLayout
@@ -16,6 +17,7 @@
 			android:layout_height="60px"
 			android:text="@string/edit_itemname"
 			android:gravity="center_vertical"
+			android:textColor="#3C3C3C"
 			android:padding="2px" />
 		<Spinner
 			android:id="@+id/edit_aitemname"
@@ -32,11 +34,14 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/edit_amount"
-			android:padding="2px"/>
+			android:textColor="#3C3C3C"
+			android:padding="2px" />
 		<EditText
 			android:id="@+id/edit_amount"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
+			android:textColor="#3C3C3C"
+			android:inputType="number"
 			android:layout_weight="1" />
 	</LinearLayout>
 	<LinearLayout
@@ -46,13 +51,15 @@
 
 		<TextView
 			android:layout_width="wrap_content"
+			android:textColor="#3C3C3C"
 			android:layout_height="wrap_content"
 			android:text="@string/edit_time"
 			android:padding="2px" />
-		<EditText
+		<Button
 			android:id="@+id/edit_time"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
+			android:textColor="#3C3C3C"
 			android:layout_weight="1" />
 	</LinearLayout>
 	<LinearLayout
@@ -64,12 +71,14 @@
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:textColor="#3C3C3C"
 		android:text="@string/edit_remark" />
 	<EditText
-		android:id="@+id/remark"
+		android:id="@+id/edit_remark"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_weight="1"
+		android:textColor="#3C3C3C"
 		android:scrollbars="vertical"
 		android:gravity="top" />
 
@@ -78,14 +87,24 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content">
 		<Button
-			android:id="@+id/confirm"
+			android:id="@+id/a_confirm"
 			android:text="@string/confirm"
 			android:layout_width="wrap_content"
+			android:textColor="#3C3C3C"
 			android:layout_height="wrap_content" />
 		<Button
-			android:id="@+id/cancel"
+			android:id="@+id/a_cancel"
 			android:text="@string/cancel"
 			android:layout_width="wrap_content"
+			android:textColor="#3C3C3C"
 			android:layout_height="wrap_content" />
+		<EditText
+			android:id="@+id/edit_type"
+			android:layout_width="fill_parent"
+			android:text="0"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:visibility="invisible"
+			android:gravity="top" />
 	</LinearLayout>
 </LinearLayout>

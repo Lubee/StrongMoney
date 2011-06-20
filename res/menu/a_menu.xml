@@ -4,12 +4,16 @@
 	<group
 		android:id="@+id/group_a">
 		<item
-			android:id="@+id/item_a"
-			android:icon="@drawable/gimp"
-			android:title="Gimp"></item>
-			   <item
-      android:id="@+id/item_a"
-      android:icon="@drawable/mumule"
-      android:title="MMM"></item>
+			android:id="@+id/account_add"
+			android:icon="@drawable/add"
+			android:title="添加"></item>
+		<item
+			android:id="@+id/account_edit"
+			android:icon="@drawable/edit"
+			android:title="编辑"></item>
+		<item
+			android:id="@+id/account_del"
+			android:icon="@drawable/delete"
+			android:title="删除"></item>
 	</group>
 </menu>

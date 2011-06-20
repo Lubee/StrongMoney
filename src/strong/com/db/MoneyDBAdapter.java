@@ -81,7 +81,7 @@ public class MoneyDBAdapter {
    */
   public Cursor quryItems() {
     return mDb.query(ITEM_TABLE, new String[] { ITEM_ID, ITEM_NAME,
-        ITEM_TYPE}, null, null, null, null, ITEM_TYPE + " desc");
+        ITEM_TYPE}, null, null, null, null, ITEM_TYPE + " asc");
   }
 
   /**

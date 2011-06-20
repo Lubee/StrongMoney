@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-<group android:id="@+id/group_c"><item android:id="@+id/item_c" android:title="Notepad" android:icon="@drawable/notepad"></item>
-</group>
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<group
+		android:id="@+id/group_c">
+		<item
+			android:id="@+id/item_add"
+			android:icon="@drawable/add"
+			android:title="添加"></item>
+		<item
+			android:id="@+id/item_edit"
+			android:icon="@drawable/edit"
+			android:title="编辑"></item>
+		<item
+			android:id="@+id/item_del"
+			android:icon="@drawable/delete"
+			android:title="删除"></item>
+	</group>
 </menu>
