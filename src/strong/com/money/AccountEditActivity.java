@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class AccountEditActivity extends Activity {
 
@@ -34,7 +35,6 @@ public class AccountEditActivity extends Activity {
   private Button cancelBtn;
 
   private ArrayList<Item> list = new ArrayList<Item>();
-  private ArrayAdapter<Item> adapter;
 
   private long id;
   private String itemName;
@@ -63,7 +63,7 @@ public class AccountEditActivity extends Activity {
   }
 
   private void initItemNameSpinner() {
-    adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_item, list);
+    ArrayAdapter<Item>  adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_item, list);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     itemNameSp.setAdapter(adapter);
     itemNameSp.setSelection(index, true);
@@ -113,16 +113,20 @@ public class AccountEditActivity extends Activity {
 
       @Override
       public void onClick(View v) {
-        type = Integer.parseInt(typeEdit.getText().toString());
-        float amount = (type - 1) < 0 ? (-1) * Float.parseFloat(amountEdit.getText().toString()) : Float.parseFloat(amountEdit.getText().toString());
-        if (id > 0) {
-          dbAdapter.updateAccount(id, timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type, remarkEdit.getText().toString());
-        } else {
-          dbAdapter.insertAccount(timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type, remarkEdit.getText().toString());
+        try {
+          type = Integer.parseInt(typeEdit.getText().toString());
+          float amount = (type - 1) < 0 ? (-1) * Float.parseFloat(amountEdit.getText().toString()) : Float.parseFloat(amountEdit.getText().toString());
+          if (id > 0) {
+            dbAdapter.updateAccount(id, timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type, remarkEdit.getText().toString());
+          } else {
+            dbAdapter.insertAccount(timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type, remarkEdit.getText().toString());
+          }
+          Intent mIntent = new Intent();
+          setResult(RESULT_OK, mIntent);
+          finish();
+        } catch (NumberFormatException e) {
+          Toast.makeText(AccountEditActivity.this, "金额不能为空!", Toast.LENGTH_SHORT).show();
         }
-        Intent mIntent = new Intent();
-        setResult(RESULT_OK, mIntent);
-        finish();
       }
     });
     cancelBtn.setOnClickListener(new OnClickListener() {
@@ -138,7 +142,8 @@ public class AccountEditActivity extends Activity {
         Calendar c = DateUtil.getStringToCalender(timeBtn.getText().toString().trim());
         new DatePickerDialog(AccountEditActivity.this, new DatePickerDialog.OnDateSetListener() {
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            timeBtn.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+            String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
+            timeBtn.setText(year + "-" + month+ "-" + dayOfMonth);
           }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -171,7 +176,6 @@ public class AccountEditActivity extends Activity {
       }
 
       id = bundle.getInt(MoneyDBAdapter.ACCOUNT_ID);
-      System.out.println(id);
 
     } else {
       timeBtn.setText(DateUtil.getCurrentTime());

@@ -1,10 +1,15 @@
 package strong.com.money;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import strong.com.adapter.AccountAdapter;
 import strong.com.adapter.ItemAdapter;
 import strong.com.db.MoneyDBAdapter;
+import strong.com.pojo.Item;
+import strong.com.util.DateUtil;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -23,12 +28,15 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
@@ -46,6 +54,8 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
 
   private static long rowId;
 
+  private ArrayList<String> list = new ArrayList<String>();
+
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,8 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
 
     createAccountViewList();
     createItemViewList();
+    initSpList();
+    initTongJiView();
   }
 
   private void initLayoutTabHost() {
@@ -96,7 +108,7 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       // 动态加入数组中对应的XML MENU菜单
       break;
     case 2:
-      inflater.inflate(myMenuResources[1], menu);
+      // inflater.inflate(myMenuResources[1], menu);
 
       break;
     case 3:
@@ -156,7 +168,7 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       onCreateOptionsMenu(myMenu);
     }
   }
-  
+
   // 长按菜单响应函数
   @Override
   public boolean onContextItemSelected(MenuItem item) {
@@ -249,15 +261,15 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
 
       }
     });
-    
+
     myListView.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         myListView.setItemChecked(position, false);
-        rowId = id;        
+        rowId = id;
       }
     });
-    
+
     myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
       @Override
       public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -282,8 +294,8 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       myTextView.setVisibility(View.VISIBLE);
     }
 
-    Cursor totalOutCursor = dbAdapter.queryTotalInOut(0);
-    Cursor totalinCursor = dbAdapter.queryTotalInOut(1);
+    Cursor totalOutCursor = dbAdapter.queryTotalOut(null);
+    Cursor totalinCursor = dbAdapter.queryTotalIn(null);
     float in_account = totalinCursor.getFloat(0);
     float out_account = totalOutCursor.getFloat(0);
     float total = in_account + out_account;
@@ -304,17 +316,18 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         rowId = id;
       }
+
       @Override
       public void onNothingSelected(AdapterView<?> parent) {
       }
     });
-    
+
     myListView.setOnItemClickListener(new OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-      myListView.setItemChecked(position, false);
-      rowId = id;
-        
+        myListView.setItemChecked(position, false);
+        rowId = id;
+
       }
     });
     myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -351,7 +364,7 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
   }
 
   private void createEditAmountView(final long id) {
-    if (id > 0 ||id== -1) {
+    if (id > 0 || id == -1) {
       final Cursor c = dbAdapter.quryItemById(id);
       final Dialog mGPSOffsetDialog;
       mGPSOffsetDialog = new Dialog(this);
@@ -380,7 +393,8 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
 
       RadioGroup modesRadioGroup = new RadioGroup(this);
 
-      LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+      LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT,
+          RadioGroup.LayoutParams.WRAP_CONTENT);
 
       final RadioButton zhichu = buildRadioButton(getResources().getString((R.string.zhichu)), 0);
       modesRadioGroup.addView(zhichu, 0, layoutParams);
@@ -422,8 +436,106 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
 
       mGPSOffsetDialog.setContentView(mainPanel);
       mGPSOffsetDialog.show();
-    }else if(id ==0){
+    } else if (id == 0) {
       Toast.makeText(MainActivity.this, "没有选中记录!", Toast.LENGTH_SHORT).show();
     }
+  }
+
+  private static int index = 0;
+
+  /**
+   * 初始化统计界面的下拉 下午01:30:10_2011-6-23
+   */
+  private void initTongJiView() {
+    final Spinner yearSp = (Spinner) findViewById(R.id.option_year);
+    final Spinner monthSp = (Spinner) findViewById(R.id.option_year_for_month);
+    Button yearBtn = (Button) findViewById(R.id.a_search1);
+    Button monthBtn = (Button) findViewById(R.id.a_search2);
+
+    final Button startBtn = (Button) findViewById(R.id.option_start);
+    final Button endBtn = (Button) findViewById(R.id.option_end);
+    Button zBtn = (Button) findViewById(R.id.a_search3);
+
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+    yearSp.setAdapter(adapter);
+    yearSp.setSelection(index);
+    monthSp.setAdapter(adapter);
+    monthSp.setSelection(index);
+
+    startBtn.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Calendar c = Calendar.getInstance();
+        new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+          public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
+            startBtn.setText(year + "-" +month+ "-" + dayOfMonth);
+          }
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+      }
+    });
+    endBtn.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Calendar c = Calendar.getInstance();
+        new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
+          public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
+            endBtn.setText(year + "-" + month + "-" + dayOfMonth);
+          }
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+      }
+    });
+
+    yearBtn.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent mIntent = new Intent(MainActivity.this, StatisticsActivty.class);
+        mIntent.putExtra("year", yearSp.getSelectedItem().toString());
+        startActivity(mIntent);
+      }
+    });
+
+    monthBtn.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent mIntent = new Intent(MainActivity.this, StatisticsMonthActivty.class);
+        mIntent.putExtra("year_month", monthSp.getSelectedItem().toString());
+        startActivity(mIntent);
+      }
+    });
+    
+    zBtn.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        String start = startBtn.getText().toString();
+        String end = endBtn.getText().toString();
+        System.out.println(start);
+        System.out.println(start.compareTo(end));
+        if (start == null || start.length() <= 0 || end == null || end.length() <= 0 ||start.compareTo(end) >= 0) {
+          Toast.makeText(MainActivity.this, "时间不正确!", Toast.LENGTH_SHORT).show();
+        } else {
+          Intent mIntent = new Intent(MainActivity.this, StatisticsActivty.class);
+          mIntent.putExtra("start", start);
+          mIntent.putExtra("end", end);
+          startActivity(mIntent);
+        }
+      }
+    });
+  }
+
+  private void initSpList() {
+    String[] ls = getResources().getStringArray(R.array.yeararray);
+    String currentYear = String.valueOf(DateUtil.getCurrentYear());
+    // 获取XML中定义的数组
+    for (int i = 0; i < ls.length; i++) {
+      if (currentYear.equals(ls[i])) {
+        index = i;
+      }
+      list.add(ls[i]);
+    }
+
   }
 }

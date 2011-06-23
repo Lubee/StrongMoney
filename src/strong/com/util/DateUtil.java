@@ -8,21 +8,25 @@ import java.util.Date;
 public class DateUtil {
 
   private static SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
-  
-  public static String getCurrentTime(){
-   //return  sp.format(new Date());
-   Calendar c = Calendar.getInstance();
-   return c.get(Calendar.YEAR)+"-"+(c.get(Calendar.MONTH)+1)+"-"+c.get(Calendar.DAY_OF_MONTH);
-  }
-  
-  public static Calendar getStringToCalender(String dateStr){
+
+  public static String getCurrentTime() {
+    // return sp.format(new Date());
     Calendar c = Calendar.getInstance();
-   try {
-    Date date = sp.parse(dateStr);
-    c.setTime(date);
-  } catch (ParseException e) {
+    return  new StringBuilder(String.valueOf(c.get(Calendar.YEAR))).append("-").append(c.get(Calendar.MONTH) + 1).append("-").append(c.get(Calendar.DAY_OF_MONTH)).toString();
   }
-  return c;
+
+  public static Calendar getStringToCalender(String dateStr) {
+    Calendar c = Calendar.getInstance();
+    try {
+      Date date = sp.parse(dateStr);
+      c.setTime(date);
+    } catch (ParseException e) {
+    }
+    return c;
   }
-  
+
+  public static int getCurrentYear() {
+    Calendar c = Calendar.getInstance();
+    return c.get(Calendar.YEAR);
+  }
 }

@@ -22,6 +22,8 @@
 		<activity
 			android:name=".AccountEditActivity">
 		</activity>
+		<activity android:name=".StatisticsActivty"></activity>
+		<activity android:name=".StatisticsMonthActivty"></activity>
 
 	</application>
 </manifest>

@@ -7,7 +7,7 @@
 	<string	name="accounttime_title">时间</string>
 	<string	name="browse_no_accounts">没有账目记录，从现在开始吧，养成良好的理财习惯！</string>
   <string name="browse_no_items">没有记录！</string>
-  <string name="total_foot">当前收入：{0} 当前支出：{1} 余额：{2}</string>
+  <string name="total_foot">共计收入：{0} 共计支出：{1} 余额：{2}</string>
    <string name="edit_itemname">收支项：</string>
   <string name="edit_amount">金    额：</string>
   <string name="edit_time">时    间：</string>
@@ -15,7 +15,28 @@
   <string name="edit_remark">备注：</string>
   <string name="confirm">保存</string>
   <string name="cancel">取消</string>
-   <string name="edit_amountitem">编辑</string>
-     <string name="shouru">收入</string>
-   <string name="zhichu">支出</string>
+  <string name="edit_amountitem">编辑</string>
+  <string name="shouru">收入</string>
+  <string name="zhichu">支出</string>
+   
+   <string name="yeart">年统计:</string>
+   <string name="montht">月统计:</string>
+   <string name="zidingyi">自定义:</string>
+   <string name="month">月份</string>
+   <string name="yue">余额</string>
+   <string name="search">查询</string>
+   
+  <string-array name="yeararray">
+	  <item>2010</item>
+	  <item>2011</item>
+	  <item>2012</item>
+    <item>2013</item>
+    <item>2014</item>
+    <item>2015</item>
+    <item>2016</item>
+    <item>2017</item>
+    <item>2018</item>
+    <item>2019</item>
+    <item>2020</item>
+  </string-array>
 </resources>

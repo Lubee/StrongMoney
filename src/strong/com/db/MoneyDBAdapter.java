@@ -1,5 +1,10 @@
 package strong.com.db;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import strong.com.pojo.Account;
+import strong.com.util.DateUtil;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,37 +15,31 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MoneyDBAdapter {
 
   public static final String DATABASE_NAME = "strongmoney.db";
-  
-  public static final String ACCOUNT_TABLE ="account";
-  public static final String ACCOUNT_ID ="account_id";
-  public static final String  TIME  ="time";
-  public static final String REMARK ="remark";
-  public static final String AMOUNT ="amount";
-  public static final String AITEM_NAME ="item_name";
-  public static final String AITEM_TYPE ="item_type";
-  
-  public static final String ITEM_TABLE ="item";
-  public static final String ITEM_ID ="_id";
-  public static final String ITEM_TYPE ="item_type";
-  public static final String ITEM_NAME ="item_name";
-  
+
+  public static final String ACCOUNT_TABLE = "account";
+  public static final String ACCOUNT_ID = "account_id";
+  public static final String TIME = "time";
+  public static final String REMARK = "remark";
+  public static final String AMOUNT = "amount";
+  public static final String AITEM_NAME = "item_name";
+  public static final String AITEM_TYPE = "item_type";
+
+  public static final String ITEM_TABLE = "item";
+  public static final String ITEM_ID = "_id";
+  public static final String ITEM_TYPE = "item_type";
+  public static final String ITEM_NAME = "item_name";
+
   private static final int DATABASE_VERSION = 1;
-  
-  protected static final String ACCOUNT_TABLE_DDL ="CREATE TABLE IF NOT EXISTS " + ACCOUNT_TABLE + " (" 
-  + ACCOUNT_ID + " INTEGER primary key autoincrement, " 
-  + " "+ TIME + "  CHAR(10),"
-  + " "+ REMARK + " VARCHAR, "
-  + " "+ AMOUNT + " FLOAT DEFAULT '0', "
-  + " "+ AITEM_NAME + " VARCHAR, "
-  + " "+ AITEM_TYPE + " INTEGER DEFAULT '0');";
-  
-  protected static final String ITEM_TABLE_DDL ="CREATE TABLE IF NOT EXISTS " + ITEM_TABLE + " (" 
-  + ITEM_ID + " INTEGER primary key autoincrement, " 
-  + " "+ ITEM_NAME + " VARCHAR, "
-  + " "+ ITEM_TYPE + " INTEGER DEFAULT '0');";
-  
-  private static final String DROP_ACCOUNT_DLL = "DROP TABLE IF EXISTS "+ ACCOUNT_TABLE;;
-  private static final String DROP_ITEM_DLL = "DROP TABLE IF EXISTS "+ ITEM_TABLE;;
+
+  protected static final String ACCOUNT_TABLE_DDL = "CREATE TABLE IF NOT EXISTS " + ACCOUNT_TABLE + " (" + ACCOUNT_ID
+      + " INTEGER primary key autoincrement, " + " " + TIME + "  CHAR(10)," + " " + REMARK + " VARCHAR, " + " " + AMOUNT
+      + " FLOAT DEFAULT '0', " + " " + AITEM_NAME + " VARCHAR, " + " " + AITEM_TYPE + " INTEGER DEFAULT '0');";
+
+  protected static final String ITEM_TABLE_DDL = "CREATE TABLE IF NOT EXISTS " + ITEM_TABLE + " (" + ITEM_ID
+      + " INTEGER primary key autoincrement, " + " " + ITEM_NAME + " VARCHAR, " + " " + ITEM_TYPE + " INTEGER DEFAULT '0');";
+
+  private static final String DROP_ACCOUNT_DLL = "DROP TABLE IF EXISTS " + ACCOUNT_TABLE;;
+  private static final String DROP_ITEM_DLL = "DROP TABLE IF EXISTS " + ITEM_TABLE;;
   private final Context mCtx;
   private DatabaseHelper mDbHelper;
   private SQLiteDatabase mDb;
@@ -64,6 +63,7 @@ public class MoneyDBAdapter {
       onCreate(db);
     }
   }
+
   public MoneyDBAdapter(Context ctx) {
     this.mCtx = ctx;
   }
@@ -73,107 +73,104 @@ public class MoneyDBAdapter {
     mDb = mDbHelper.getWritableDatabase();
     return this;
   }
-  
+
   /**
-   * 查询所有收支项
-   *上午09:33:02_2011-6-16
+   * 查询所有收支项 上午09:33:02_2011-6-16
+   * 
    * @return
    */
   public Cursor quryItems() {
-    return mDb.query(ITEM_TABLE, new String[] { ITEM_ID, ITEM_NAME,
-        ITEM_TYPE}, null, null, null, null, ITEM_TYPE + " asc");
+    return mDb.query(ITEM_TABLE, new String[] { ITEM_ID, ITEM_NAME, ITEM_TYPE }, null, null, null, null, ITEM_TYPE + " asc");
   }
 
   /**
-   * 按照id号查询收支项
-   *上午09:32:33_2011-6-16
+   * 按照id号查询收支项 上午09:32:33_2011-6-16
+   * 
    * @param rowId
    * @return
    * @throws SQLException
    */
   public Cursor quryItemById(long rowId) throws SQLException {
-    Cursor mCursor =
-    mDb.query(true, ITEM_TABLE, new String[] { ITEM_ID, ITEM_NAME,
-        ITEM_TYPE }, ITEM_ID + "=" + rowId, null, null,
-        null, null, null);
+    Cursor mCursor = mDb.query(true, ITEM_TABLE, new String[] { ITEM_ID, ITEM_NAME, ITEM_TYPE }, ITEM_ID + "=" + rowId, null, null, null,
+        null, null);
     if (mCursor != null) {
       mCursor.moveToFirst();
     }
     return mCursor;
 
   }
-  
+
   /**
-   * 修改收支项
-   *上午09:32:20_2011-6-16
+   * 修改收支项 上午09:32:20_2011-6-16
+   * 
    * @param rowId
    * @param itemName
    * @param itemType
    * @return
    */
-  public boolean updateItem(long rowId,String itemName, int itemType){
+  public boolean updateItem(long rowId, String itemName, int itemType) {
     ContentValues args = new ContentValues();
     args.put(ITEM_NAME, itemName);
     args.put(ITEM_TYPE, itemType);
-    return mDb.update(ITEM_TABLE, args, ITEM_ID + "=" + rowId, null) > 0;  
+    return mDb.update(ITEM_TABLE, args, ITEM_ID + "=" + rowId, null) > 0;
   }
-  
+
   /**
-   * 添加收支项
-   *上午09:32:09_2011-6-16
+   * 添加收支项 上午09:32:09_2011-6-16
+   * 
    * @param itemName
    * @param itemType
    * @return
    */
-  public long insertItem( String itemName, int itemType){
+  public long insertItem(String itemName, int itemType) {
     ContentValues args = new ContentValues();
     args.put(ITEM_NAME, itemName);
     args.put(ITEM_TYPE, itemType);
     return mDb.insert(ITEM_TABLE, null, args);
-    
-  }
-  /**
-   * 删除收支项
-   *上午09:29:04_2011-6-16
-   * @param rowId
-   * @return
-   */
-  public boolean deleteItem(long rowId){
-    return mDb.delete(ITEM_TABLE,  ITEM_ID + "=" + rowId, null) > 0;
-    
-  }
-  /**
-   * 查询所有帐目
-   *上午09:12:07_2011-6-16
-   * @return
-   */
-  public Cursor quryAcounts() {
-    return mDb.query(ACCOUNT_TABLE, new String[] { ACCOUNT_ID, TIME,
-        AMOUNT, AITEM_NAME,AITEM_TYPE,REMARK }, null, null, null, null, TIME+" desc,"+ACCOUNT_ID + " desc");
+
   }
 
   /**
-   * 根据id号查询帐目
-   *上午09:12:16_2011-6-16
+   * 删除收支项 上午09:29:04_2011-6-16
+   * 
+   * @param rowId
+   * @return
+   */
+  public boolean deleteItem(long rowId) {
+    return mDb.delete(ITEM_TABLE, ITEM_ID + "=" + rowId, null) > 0;
+
+  }
+
+  /**
+   * 查询所有帐目 上午09:12:07_2011-6-16
+   * 
+   * @return
+   */
+  public Cursor quryAcounts() {
+    return mDb.query(ACCOUNT_TABLE, new String[] { ACCOUNT_ID, TIME, AMOUNT, AITEM_NAME, AITEM_TYPE, REMARK }, null, null, null, null, TIME
+        + " desc," + ACCOUNT_ID + " desc");
+  }
+
+  /**
+   * 根据id号查询帐目 上午09:12:16_2011-6-16
+   * 
    * @param rowId
    * @return
    * @throws SQLException
    */
   public Cursor quryAcountById(long rowId) throws SQLException {
-    Cursor mCursor =
-    mDb.query(true, ACCOUNT_TABLE, new String[] { ACCOUNT_ID, TIME,
-        AMOUNT, AITEM_NAME,AITEM_TYPE,REMARK }, ACCOUNT_ID + "=" + rowId, null, null,
-        null, null, null);
+    Cursor mCursor = mDb.query(true, ACCOUNT_TABLE, new String[] { ACCOUNT_ID, TIME, AMOUNT, AITEM_NAME, AITEM_TYPE, REMARK }, ACCOUNT_ID
+        + "=" + rowId, null, null, null, null, null);
     if (mCursor != null) {
       mCursor.moveToFirst();
     }
     return mCursor;
 
   }
-  
+
   /**
-   * 修改帐目 
-   *上午09:28:26_2011-6-16
+   * 修改帐目 上午09:28:26_2011-6-16
+   * 
    * @param rowId
    * @param time
    * @param amount
@@ -182,19 +179,19 @@ public class MoneyDBAdapter {
    * @param remark
    * @return
    */
-  public boolean updateAccount(long rowId, String time, float amount, String itemName, int itemType, String remark){
+  public boolean updateAccount(long rowId, String time, float amount, String itemName, int itemType, String remark) {
     ContentValues args = new ContentValues();
     args.put(TIME, time);
     args.put(AMOUNT, amount);
     args.put(AITEM_NAME, itemName);
     args.put(AITEM_TYPE, itemType);
     args.put(REMARK, remark);
-    return mDb.update(ACCOUNT_TABLE, args, ACCOUNT_ID + "=" + rowId, null) > 0;  
+    return mDb.update(ACCOUNT_TABLE, args, ACCOUNT_ID + "=" + rowId, null) > 0;
   }
-  
+
   /**
-   * 添加帐目
-   *上午09:28:48_2011-6-16
+   * 添加帐目 上午09:28:48_2011-6-16
+   * 
    * @param time
    * @param amount
    * @param itemName
@@ -202,7 +199,7 @@ public class MoneyDBAdapter {
    * @param remark
    * @return
    */
-  public long insertAccount( String time, float amount, String itemName, int itemType, String remark){
+  public long insertAccount(String time, float amount, String itemName, int itemType, String remark) {
     ContentValues args = new ContentValues();
     args.put(TIME, time);
     args.put(AMOUNT, amount);
@@ -210,31 +207,85 @@ public class MoneyDBAdapter {
     args.put(AITEM_TYPE, itemType);
     args.put(REMARK, remark);
     return mDb.insert(ACCOUNT_TABLE, null, args);
-    
+
   }
+
   /**
-   * 删除帐目
-   *上午09:29:04_2011-6-16
+   * 删除帐目 上午09:29:04_2011-6-16
+   * 
    * @param rowId
    * @return
    */
-  public boolean deleteAccount(long rowId){
-    return mDb.delete(ACCOUNT_TABLE,  ACCOUNT_ID + "=" + rowId, null) > 0;
-    
+  public boolean deleteAccount(long rowId) {
+    return mDb.delete(ACCOUNT_TABLE, ACCOUNT_ID + "=" + rowId, null) > 0;
+
   }
-  
+
+  public Cursor queryTotalIn(String where) {
+    return queryTotalByType(1, where);
+  }
+
+  public Cursor queryTotalOut(String where) {
+    return queryTotalByType(0, where);
+  }
+
   /**
-   * 按照条件获取收支项目,0为支出，1为收入
-   *下午02:31:58_2011-6-16
+   * 按照条件获取收支项目,0为支出，1为收入 下午02:31:58_2011-6-16
+   * 
    * @return
    */
-  public Cursor queryTotalInOut(int type){
-    Cursor mCursor =
-      mDb.query(true, ACCOUNT_TABLE, new String[] {"sum(amount)" }, AITEM_TYPE + "=" + type, null, null,
-          null, null, null);
-      if (mCursor != null) {
-        mCursor.moveToFirst();
+  private Cursor queryTotalByType(int type, String where) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(AITEM_TYPE).append("=").append(type);
+    if (where != null) {
+      sb.append(" and ").append(where);
+    }
+    Cursor mCursor = mDb.query(true, ACCOUNT_TABLE, new String[] { "sum(" + AMOUNT + ")" }, sb.toString(), null, null, null, null, null);
+    if (mCursor != null) {
+      mCursor.moveToFirst();
+    }
+    return mCursor;
+  }
+
+  public Cursor queryAccountByYear(String year) {
+    Cursor mCursor = mDb.query(true, ACCOUNT_TABLE, new String[] { "sum(" + AMOUNT + ")", AITEM_NAME }, TIME + " like '" + year + "%'",
+        null, AITEM_NAME, null, AITEM_TYPE + " asc", null);
+
+    return mCursor;
+  }
+
+  public ArrayList<Account> queryAccountByMonth(String year) {
+    String years = year;
+    ArrayList<Account> list = new ArrayList<Account>();
+    Cursor sCursor = null;
+    Cursor zCursor = null;
+    for (int i = 1; i <= 12; i++) {
+      Account account = new Account();
+      StringBuilder srSb = new StringBuilder();
+      srSb.append(AITEM_TYPE).append("=1 and ").append(TIME).append(" like '").append(years).append("-").append(i).append("%'");
+      sCursor = mDb.query(ACCOUNT_TABLE, new String[] { "sum(" + AMOUNT + ")" }, srSb.toString(), null, null, null, null);
+      if (sCursor != null && sCursor.moveToFirst()) {
+        account.setsAmount(sCursor.getFloat(0));
       }
-      return mCursor;
+
+      StringBuilder zcSb = new StringBuilder();
+      zcSb.append(AITEM_TYPE).append("=0 and ").append(TIME).append(" like '").append(years).append("-").append(i).append("%'");
+      zCursor = mDb.query( ACCOUNT_TABLE, new String[] { "sum(" + AMOUNT + ")" }, zcSb.toString(), null, null, null, null);
+      if (zCursor != null && zCursor.moveToFirst()) {
+        account.setzAmount(zCursor.getFloat(0));
+      }
+      account.setMonth(i);// 月份
+      list.add(account);
+    }
+
+    sCursor.close();
+    zCursor.close();
+    return list;
+  }
+
+  public Cursor queryAccountByDate(String startDate, String endDate) {
+    Cursor mCursor = mDb.query( ACCOUNT_TABLE, new String[] { "sum(" + AMOUNT + ")", AITEM_NAME }, TIME + "<='" + endDate + "' and "
+        + TIME + ">='" + startDate+"'", null, AITEM_NAME, null, AITEM_TYPE + " asc");
+    return mCursor;
   }
 }

@@ -6,14 +6,14 @@
 		<item
 			android:id="@+id/account_add"
 			android:icon="@drawable/add"
-			android:title="添加"></item>
+			android:title="添加账目"></item>
 		<item
 			android:id="@+id/account_edit"
 			android:icon="@drawable/edit"
-			android:title="编辑"></item>
+			android:title="编辑账目"></item>
 		<item
 			android:id="@+id/account_del"
 			android:icon="@drawable/delete"
-			android:title="删除"></item>
+			android:title="删除账目"></item>
 	</group>
 </menu>
