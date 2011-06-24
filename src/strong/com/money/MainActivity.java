@@ -1,5 +1,7 @@
 package strong.com.money;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -8,15 +10,22 @@ import strong.com.adapter.AccountAdapter;
 import strong.com.adapter.ItemAdapter;
 import strong.com.db.MoneyDBAdapter;
 import strong.com.util.DateUtil;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,6 +47,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -135,6 +145,10 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       deleteAccount(rowId);
       rowId = 0;
       break;
+    case R.id.about:
+      showAbout();
+
+      break;
     case R.id.item_add:
       createEditAmountView(-1);
       break;
@@ -196,7 +210,43 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
     }
     return super.onContextItemSelected(item);
   }
+  
+  private void showAbout(){
+    
+    final String url = getString(R.string.url);
+    String about = getString(R.string.ABOUT_MESSAGE).replace("{url}", url);
+    TextView tv = new TextView(this);
+    tv.setLinksClickable(true);
 
+    tv.setAutoLinkMask(Linkify.WEB_URLS);
+    tv.setGravity(Gravity.CENTER);
+    tv.setText(about);
+    tv.setTextSize(12f);
+    String versionName = "";
+    try {
+      String packageName = MainActivity.class.getPackage().getName();
+      PackageInfo info = getPackageManager().getPackageInfo(packageName, 0);
+      versionName = info.versionName;
+    } catch (PackageManager.NameNotFoundException e) {
+    }
+    ScrollView scrollPanel = new ScrollView(this);
+    scrollPanel.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+    scrollPanel.addView(tv);
+    try {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.ABOUT_TITLE) + " " + versionName).setView(scrollPanel).setIcon(R.drawable.my_icon)
+            .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int whichButton) {
+              }
+            }).setNeutralButton(R.string.website, new DialogInterface.OnClickListener() {
+              public void onClick(DialogInterface dialog, int whichButton) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+              }
+            }).show();
+    } catch (NumberFormatException e) {
+    }
+  }
   /**
    * 编辑帐目 上午11:45:24_2011-6-20
    * 

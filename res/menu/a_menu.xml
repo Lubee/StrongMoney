@@ -15,5 +15,9 @@
 			android:id="@+id/account_del"
 			android:icon="@drawable/delete"
 			android:title="删除账目"></item>
+    <item
+      android:id="@+id/about"
+      android:icon="@drawable/about"
+      android:title="关于"></item>
 	</group>
 </menu>

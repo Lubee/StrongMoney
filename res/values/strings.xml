@@ -43,4 +43,15 @@
     <item>2019</item>
     <item>2020</item>
   </string-array>
+  <string name="website">个人主页</string>
+  <string name="url">http://ninggy.iteye.com</string>
+  <string name="ABOUT_TITLE">StrongMoney\n迷你账本</string>
+  <string name="ABOUT_MESSAGE">
+ \t迷你账本-主要用来记录日常的一些收支情况，目前提供一些简单的统计功能，让使用者可以根据以往的开支情况合理的对日常生活开支做出预算，养成良好的理财习惯。。\n
+\n
+版权所有 © 2011-2012\n
+开发者: Lubee.Ning\n
+保留所有的权利。\n
+详情访问个人空间\n{url}
+    </string>
 </resources>
