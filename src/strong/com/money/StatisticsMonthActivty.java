@@ -30,6 +30,7 @@ public class StatisticsMonthActivty extends Activity {
       String year = bundle.getString("year_month");
       if (year != null) {
         list = dbAdapter.queryAccountByMonth(year);
+        setTitle(year+"年各月统计数据");
       }
     }
     if (list != null && list.size() > 0) {

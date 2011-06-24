@@ -25,6 +25,10 @@
    <string name="month">月份</string>
    <string name="yue">余额</string>
    <string name="search">查询</string>
+   <string name="show_menu">显示范围</string>
+   <string name="cur_month">当前月</string>
+   <string name="cur_year">当前年</string>
+   <string name="cur_all">全部</string>  
    
   <string-array name="yeararray">
 	  <item>2010</item>

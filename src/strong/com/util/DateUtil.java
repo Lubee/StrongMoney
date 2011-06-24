@@ -29,4 +29,10 @@ public class DateUtil {
     Calendar c = Calendar.getInstance();
     return c.get(Calendar.YEAR);
   }
+  public static String getCurrentYearMonth() {
+    Calendar c = Calendar.getInstance();
+    int month = c.get(Calendar.MONTH)+1;
+    String monthstr = (month<10)?"0"+month:month+"";
+    return c.get(Calendar.YEAR)+"-"+monthstr;
+  }
 }

@@ -146,10 +146,12 @@ public class MoneyDBAdapter {
    * 
    * @return
    */
-  public Cursor quryAcounts() {
-    return mDb.query(ACCOUNT_TABLE, new String[] { ACCOUNT_ID, TIME, AMOUNT, AITEM_NAME, AITEM_TYPE, REMARK }, null, null, null, null, TIME
+  public Cursor quryAcounts(String where) {
+    return mDb.query(ACCOUNT_TABLE, new String[] { ACCOUNT_ID, TIME, AMOUNT, AITEM_NAME, AITEM_TYPE, REMARK }, where, null, null, null, TIME
         + " desc," + ACCOUNT_ID + " desc");
   }
+  
+
 
   /**
    * 根据id号查询帐目 上午09:12:16_2011-6-16

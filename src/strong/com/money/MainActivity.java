@@ -7,12 +7,12 @@ import java.util.Calendar;
 import strong.com.adapter.AccountAdapter;
 import strong.com.adapter.ItemAdapter;
 import strong.com.db.MoneyDBAdapter;
-import strong.com.pojo.Item;
 import strong.com.util.DateUtil;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -32,10 +32,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -60,7 +62,6 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    // setContentView(R.layout.main);
     initLayoutTabHost();
     myTabhost.setOnTabChangedListener(this);
     dbAdapter = new MoneyDBAdapter(this);
@@ -247,7 +248,51 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
     createAccountViewList();
   }
 
+  private static String where ;
   private void createAccountViewList() {
+    ImageButton imagBtn = (ImageButton) findViewById(R.id.imageButton);
+    imagBtn.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        final Dialog mGPSOffsetDialog = new Dialog(MainActivity.this);
+        mGPSOffsetDialog.setCancelable(true);
+        mGPSOffsetDialog.setTitle(R.string.show_menu);
+
+        final LinearLayout mainPanel = new LinearLayout(MainActivity.this);
+        mainPanel.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        mainPanel.setOrientation(LinearLayout.VERTICAL);
+
+        RadioGroup modesRadioGroup = new RadioGroup(MainActivity.this);
+        LinearLayout.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT,
+            RadioGroup.LayoutParams.WRAP_CONTENT);
+
+        modesRadioGroup.addView(buildRadioButton(getResources().getString((R.string.cur_month)), 2), 0, layoutParams);
+        modesRadioGroup.addView(buildRadioButton(getResources().getString((R.string.cur_year)), 1), 0, layoutParams);
+        modesRadioGroup.addView(buildRadioButton(getResources().getString((R.string.cur_all)), 0), 0, layoutParams);
+       final SharedPreferences settings = getSharedPreferences("setting", 0);
+       int check = settings.getInt("show_menu", 2);
+       modesRadioGroup.check(check);
+       mainPanel.addView(modesRadioGroup);
+       modesRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+         public void onCheckedChanged(RadioGroup group, int checkedId) {
+           settings.edit().putInt("show_menu", checkedId).commit();
+           if(checkedId==0){
+             where = null;
+           }
+           if(checkedId==1){
+             where =MoneyDBAdapter.TIME+" like '"+ DateUtil.getCurrentYear()+"%'";
+           }           
+           if(checkedId==2){
+             where= MoneyDBAdapter.TIME+" like '"+ DateUtil.getCurrentYearMonth()+"%'";
+           }
+           reflushAccountViewList();
+           mGPSOffsetDialog.dismiss();
+         }
+       });
+        mGPSOffsetDialog.setContentView(mainPanel);
+        mGPSOffsetDialog.show();
+      }
+    });
     final ListView myListView = (ListView) findViewById(R.id.list);
     TextView myTextView = (TextView) findViewById(R.id.browse_empty);
 
@@ -284,7 +329,7 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
         menu.add(0, 1, 0, "删除");
       }
     });
-    Cursor myCursor = dbAdapter.quryAcounts();
+    Cursor myCursor = dbAdapter.quryAcounts(where);
 
     if (myCursor.moveToFirst()) {
       myTextView.setVisibility(View.GONE);
@@ -294,8 +339,8 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       myTextView.setVisibility(View.VISIBLE);
     }
 
-    Cursor totalOutCursor = dbAdapter.queryTotalOut(null);
-    Cursor totalinCursor = dbAdapter.queryTotalIn(null);
+    Cursor totalOutCursor = dbAdapter.queryTotalOut(where);
+    Cursor totalinCursor = dbAdapter.queryTotalIn(where);
     float in_account = totalinCursor.getFloat(0);
     float out_account = totalOutCursor.getFloat(0);
     float total = in_account + out_account;
@@ -516,8 +561,6 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       public void onClick(View v) {
         String start = startBtn.getText().toString();
         String end = endBtn.getText().toString();
-        System.out.println(start);
-        System.out.println(start.compareTo(end));
         if (start == null || start.length() <= 0 || end == null || end.length() <= 0 ||start.compareTo(end) >= 0) {
           Toast.makeText(MainActivity.this, "时间不正确!", Toast.LENGTH_SHORT).show();
         } else {

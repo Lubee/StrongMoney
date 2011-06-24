@@ -39,6 +39,7 @@ public class StatisticsActivty extends Activity {
           where = MoneyDBAdapter.TIME+" like '"+ year+"%'";
          totalOutCursor = dbAdapter.queryTotalOut(where);
          totalinCursor = dbAdapter.queryTotalIn(where);
+         setTitle(year+"年统计数据");
       }
       String start = bundle.getString("start");
       String end = bundle.getString("end");
@@ -47,6 +48,7 @@ public class StatisticsActivty extends Activity {
         where = MoneyDBAdapter.TIME+" <='"+ end +"' and "+ MoneyDBAdapter.TIME + " >='"+start+"'";
         totalOutCursor = dbAdapter.queryTotalOut(where);
         totalinCursor = dbAdapter.queryTotalIn(where);
+        setTitle(start+"至"+end+"统计数据");
       }
     }
     
