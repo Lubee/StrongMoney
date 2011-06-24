@@ -464,26 +464,30 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
     monthSp.setAdapter(adapter);
     monthSp.setSelection(index);
 
+    startBtn.setText(DateUtil.getCurrentTime());
     startBtn.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Calendar c = Calendar.getInstance();
+        Calendar c = DateUtil.getStringToCalender(startBtn.getText().toString());
         new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
-            startBtn.setText(year + "-" +month+ "-" + dayOfMonth);
+            String day = dayOfMonth<10 ? "0"+dayOfMonth: dayOfMonth+"";
+            startBtn.setText(year + "-" +month+ "-" + day);
           }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
       }
     });
+    endBtn.setText(DateUtil.getCurrentTime());
     endBtn.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        Calendar c = Calendar.getInstance();
+        Calendar c = DateUtil.getStringToCalender(endBtn.getText().toString());
         new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
-            endBtn.setText(year + "-" + month + "-" + dayOfMonth);
+            String day = dayOfMonth<10 ? "0"+dayOfMonth: dayOfMonth+"";
+            endBtn.setText(year + "-" + month + "-" + day);
           }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
       }

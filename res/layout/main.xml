@@ -16,6 +16,11 @@
 			android:layout_height="wrap_content"
 			android:background="@drawable/title_bg"
 			android:orientation="horizontal">
+			<ImageButton
+				android:layout_height="40px"
+				android:src="@drawable/title_button_list"
+				android:layout_width="40px"
+				android:id="@+id/imageButton1"></ImageButton>
 			<TextView
 				android:id="@+id/name_title"
 				android:layout_width="140dip"
@@ -79,82 +84,82 @@
 		android:layout_height="fill_parent"
 		android:orientation="vertical">
 
-	   <LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_marginTop="50dip"
-	    android:layout_height="wrap_content">
-	    <TextView
-	      android:layout_width="wrap_content"
-	      android:layout_height="wrap_content"
-	      android:text="@string/yeart"
-	      android:textColor="#3C3C3C"
-	      android:padding="2px" />
-	    <Spinner
-	      android:id="@+id/option_year"
-	      android:layout_width="wrap_content"
-	      android:layout_height="wrap_content"
-	      android:layout_weight="1" />
-	    <Button
-	      android:id="@+id/a_search1"
-	      android:text="@string/search"
-	      android:layout_width="100px"
-	      android:textColor="#3C3C3C"
-	      android:layout_marginRight="10dip"
-	      android:layout_height="wrap_content" />
-	  </LinearLayout>
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_marginTop="50dip"
+			android:layout_height="wrap_content">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/yeart"
+				android:textColor="#3C3C3C"
+				android:padding="2px" />
+			<Spinner
+				android:id="@+id/option_year"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1" />
+			<Button
+				android:id="@+id/a_search1"
+				android:text="@string/search"
+				android:layout_width="100px"
+				android:textColor="#3C3C3C"
+				android:layout_marginRight="10dip"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
 
-	  <LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content">
-	    <TextView
-	      android:layout_width="wrap_content"
-	      android:layout_height="wrap_content"
-	      android:text="@string/montht"
-	      android:textColor="#3C3C3C"
-	      android:padding="2px" />
-	    <Spinner
-	      android:id="@+id/option_year_for_month"
-	      android:layout_width="fill_parent"
-	      android:layout_height="wrap_content"
-	      android:layout_weight="1" />
-	    <Button
-	      android:id="@+id/a_search2"
-	      android:text="@string/search"
-	      android:layout_width="100px"
-	      android:layout_marginRight="10dip"
-	      android:textColor="#3C3C3C"
-	      android:layout_height="wrap_content" />
-	  </LinearLayout>
-	  <LinearLayout
-	    android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content">
-	    <TextView
-	      android:layout_width="wrap_content"
-	      android:layout_height="wrap_content"
-	      android:text="@string/zidingyi"
-	      android:textColor="#3C3C3C"
-	      android:padding="2px" />
-      <Button
-        android:id="@+id/option_start"
-        android:textColor="#3C3C3C"
-        android:layout_width="105px"
-        android:layout_height="wrap_content" />
-     <Button
-        android:id="@+id/option_end"
-        android:textColor="#3C3C3C"
-        android:layout_width="105px"
-        android:layout_height="wrap_content" />
-	    <Button
-	      android:id="@+id/a_search3"
-	      android:text="@string/search"
-	      android:layout_marginRight="10dip"
-	      android:textColor="#3C3C3C"
-	         android:layout_width="wrap_content"
-	      android:layout_height="wrap_content" />
-	  </LinearLayout>
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/montht"
+				android:textColor="#3C3C3C"
+				android:padding="2px" />
+			<Spinner
+				android:id="@+id/option_year_for_month"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1" />
+			<Button
+				android:id="@+id/a_search2"
+				android:text="@string/search"
+				android:layout_width="100px"
+				android:layout_marginRight="10dip"
+				android:textColor="#3C3C3C"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/zidingyi"
+				android:textColor="#3C3C3C"
+				android:padding="2px" />
+			<Button
+				android:id="@+id/option_start"
+				android:textColor="#3C3C3C"
+				android:layout_width="105px"
+				android:layout_height="wrap_content" />
+			<Button
+				android:id="@+id/option_end"
+				android:textColor="#3C3C3C"
+				android:layout_width="105px"
+				android:layout_height="wrap_content" />
+			<Button
+				android:id="@+id/a_search3"
+				android:text="@string/search"
+				android:layout_marginRight="10dip"
+				android:textColor="#3C3C3C"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
+		</LinearLayout>
 	</LinearLayout>
 	<!-- 第三个Tab 对应的布局 -->
 	<LinearLayout

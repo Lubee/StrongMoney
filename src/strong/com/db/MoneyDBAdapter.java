@@ -262,14 +262,14 @@ public class MoneyDBAdapter {
     for (int i = 1; i <= 12; i++) {
       Account account = new Account();
       StringBuilder srSb = new StringBuilder();
-      srSb.append(AITEM_TYPE).append("=1 and ").append(TIME).append(" like '").append(years).append("-").append(i).append("%'");
+      srSb.append(AITEM_TYPE).append("=1 and ").append(TIME).append(" like '").append(years).append("-").append(i<10 ? "0"+i:i).append("%'");
       sCursor = mDb.query(ACCOUNT_TABLE, new String[] { "sum(" + AMOUNT + ")" }, srSb.toString(), null, null, null, null);
       if (sCursor != null && sCursor.moveToFirst()) {
         account.setsAmount(sCursor.getFloat(0));
       }
 
       StringBuilder zcSb = new StringBuilder();
-      zcSb.append(AITEM_TYPE).append("=0 and ").append(TIME).append(" like '").append(years).append("-").append(i).append("%'");
+      zcSb.append(AITEM_TYPE).append("=0 and ").append(TIME).append(" like '").append(years).append("-").append(i<10 ? "0"+i:i).append("%'");
       zCursor = mDb.query( ACCOUNT_TABLE, new String[] { "sum(" + AMOUNT + ")" }, zcSb.toString(), null, null, null, null);
       if (zCursor != null && zCursor.moveToFirst()) {
         account.setzAmount(zCursor.getFloat(0));

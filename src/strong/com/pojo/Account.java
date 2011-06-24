@@ -23,7 +23,7 @@ public class Account {
   }
 
   public float getyAmount() {
-    return this.sAmount-this.zAmount;
+    return this.sAmount+this.zAmount;
   }
 
   public void setyAmount(float yAmount) {

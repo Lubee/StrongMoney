@@ -10,9 +10,9 @@ public class DateUtil {
   private static SimpleDateFormat sp = new SimpleDateFormat("yyyy-MM-dd");
 
   public static String getCurrentTime() {
-    // return sp.format(new Date());
-    Calendar c = Calendar.getInstance();
-    return  new StringBuilder(String.valueOf(c.get(Calendar.YEAR))).append("-").append(c.get(Calendar.MONTH) + 1).append("-").append(c.get(Calendar.DAY_OF_MONTH)).toString();
+     return sp.format(new Date());
+   // Calendar c = Calendar.getInstance();
+   //return  new StringBuilder(String.valueOf(c.get(Calendar.YEAR))).append("-").append(c.get(Calendar.MONTH) + 1).append("-").append(c.get(Calendar.DAY_OF_MONTH)).toString();
   }
 
   public static Calendar getStringToCalender(String dateStr) {

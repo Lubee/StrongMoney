@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, MainActivity!</string>
-	<string name="app_name">评评记账</string>
+	<string name="app_name">迷你账本</string>
 	<string name="accountname_title">名称</string>
 	<string name="accountamount_title">金额</string>
 	<string	name="accounttime_title">时间</string>

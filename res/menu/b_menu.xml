@@ -5,7 +5,7 @@
 		android:id="@+id/group_b">
 		<item
 			android:id="@+id/item_b"
-			android:icon="@drawable/mumule"
+			android:icon="@drawable/title_button_list"
 			android:title="Mumule"></item>
 	</group>
 </menu>

@@ -63,7 +63,7 @@ public class AccountEditActivity extends Activity {
   }
 
   private void initItemNameSpinner() {
-    ArrayAdapter<Item>  adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_item, list);
+    ArrayAdapter<Item> adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_spinner_item, list);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     itemNameSp.setAdapter(adapter);
     itemNameSp.setSelection(index, true);
@@ -115,11 +115,14 @@ public class AccountEditActivity extends Activity {
       public void onClick(View v) {
         try {
           type = Integer.parseInt(typeEdit.getText().toString());
-          float amount = (type - 1) < 0 ? (-1) * Float.parseFloat(amountEdit.getText().toString()) : Float.parseFloat(amountEdit.getText().toString());
+          float amount = (type - 1) < 0 ? (-1) * Float.parseFloat(amountEdit.getText().toString()) : Float.parseFloat(amountEdit.getText()
+              .toString());
           if (id > 0) {
-            dbAdapter.updateAccount(id, timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type, remarkEdit.getText().toString());
+            dbAdapter.updateAccount(id, timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type,
+                remarkEdit.getText().toString());
           } else {
-            dbAdapter.insertAccount(timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type, remarkEdit.getText().toString());
+            dbAdapter.insertAccount(timeBtn.getText().toString(), amount, ((Item) itemNameSp.getSelectedItem()).getItem_name(), type,
+                remarkEdit.getText().toString());
           }
           Intent mIntent = new Intent();
           setResult(RESULT_OK, mIntent);
@@ -142,8 +145,9 @@ public class AccountEditActivity extends Activity {
         Calendar c = DateUtil.getStringToCalender(timeBtn.getText().toString().trim());
         new DatePickerDialog(AccountEditActivity.this, new DatePickerDialog.OnDateSetListener() {
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
-            timeBtn.setText(year + "-" + month+ "-" + dayOfMonth);
+            String month = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : (monthOfYear + 1) + "";
+            String day = dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth + "";
+            timeBtn.setText(year + "-" + month + "-" + day);
           }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
 
