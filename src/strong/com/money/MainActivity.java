@@ -147,7 +147,6 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       break;
     case R.id.about:
       showAbout();
-
       break;
     case R.id.item_add:
       createEditAmountView(-1);
