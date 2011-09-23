@@ -1,7 +1,5 @@
 package strong.com.money;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -209,9 +207,9 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
     }
     return super.onContextItemSelected(item);
   }
-  
-  private void showAbout(){
-    
+
+  private void showAbout() {
+
     final String url = getString(R.string.url);
     String about = getString(R.string.ABOUT_MESSAGE).replace("{url}", url);
     TextView tv = new TextView(this);
@@ -232,20 +230,21 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
     scrollPanel.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
     scrollPanel.addView(tv);
     try {
-        new AlertDialog.Builder(this).setTitle(getString(R.string.ABOUT_TITLE) + " " + versionName).setView(scrollPanel).setIcon(R.drawable.my_icon)
-            .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int whichButton) {
-              }
-            }).setNeutralButton(R.string.website, new DialogInterface.OnClickListener() {
-              public void onClick(DialogInterface dialog, int whichButton) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-              }
-            }).show();
+      new AlertDialog.Builder(this).setTitle(getString(R.string.ABOUT_TITLE) + " " + versionName).setView(scrollPanel)
+          .setIcon(R.drawable.my_icon).setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+          }).setNeutralButton(R.string.website, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+              Intent i = new Intent(Intent.ACTION_VIEW);
+              i.setData(Uri.parse(url));
+              startActivity(i);
+            }
+          }).show();
     } catch (NumberFormatException e) {
     }
   }
+
   /**
    * 编辑帐目 上午11:45:24_2011-6-20
    * 
@@ -297,8 +296,20 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
     createAccountViewList();
   }
 
-  private static String where ;
+  private static String where;
+
   private void createAccountViewList() {
+    final SharedPreferences settings = getSharedPreferences("setting", 0);
+    final int check = settings.getInt("show_menu", 2);
+    if (check == 0) {
+      where = null;
+    }
+    if (check == 1) {
+      where = MoneyDBAdapter.TIME + " like '" + DateUtil.getCurrentYear() + "%'";
+    }
+    if (check == 2) {
+      where = MoneyDBAdapter.TIME + " like '" + DateUtil.getCurrentYearMonth() + "%'";
+    }
     ImageButton imagBtn = (ImageButton) findViewById(R.id.imageButton);
     imagBtn.setOnClickListener(new OnClickListener() {
       @Override
@@ -318,26 +329,25 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
         modesRadioGroup.addView(buildRadioButton(getResources().getString((R.string.cur_month)), 2), 0, layoutParams);
         modesRadioGroup.addView(buildRadioButton(getResources().getString((R.string.cur_year)), 1), 0, layoutParams);
         modesRadioGroup.addView(buildRadioButton(getResources().getString((R.string.cur_all)), 0), 0, layoutParams);
-       final SharedPreferences settings = getSharedPreferences("setting", 0);
-       int check = settings.getInt("show_menu", 2);
-       modesRadioGroup.check(check);
-       mainPanel.addView(modesRadioGroup);
-       modesRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-         public void onCheckedChanged(RadioGroup group, int checkedId) {
-           settings.edit().putInt("show_menu", checkedId).commit();
-           if(checkedId==0){
-             where = null;
-           }
-           if(checkedId==1){
-             where =MoneyDBAdapter.TIME+" like '"+ DateUtil.getCurrentYear()+"%'";
-           }           
-           if(checkedId==2){
-             where= MoneyDBAdapter.TIME+" like '"+ DateUtil.getCurrentYearMonth()+"%'";
-           }
-           reflushAccountViewList();
-           mGPSOffsetDialog.dismiss();
-         }
-       });
+
+        modesRadioGroup.check(check);
+        mainPanel.addView(modesRadioGroup);
+        modesRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+          public void onCheckedChanged(RadioGroup group, int checkedId) {
+            settings.edit().putInt("show_menu", checkedId).commit();
+            if (checkedId == 0) {
+              where = null;
+            }
+            if (checkedId == 1) {
+              where = MoneyDBAdapter.TIME + " like '" + DateUtil.getCurrentYear() + "%'";
+            }
+            if (checkedId == 2) {
+              where = MoneyDBAdapter.TIME + " like '" + DateUtil.getCurrentYearMonth() + "%'";
+            }
+            reflushAccountViewList();
+            mGPSOffsetDialog.dismiss();
+          }
+        });
         mGPSOffsetDialog.setContentView(mainPanel);
         mGPSOffsetDialog.show();
       }
@@ -350,6 +360,7 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         rowId = id;
       }
+
       @Override
       public void onNothingSelected(AdapterView<?> parent) {
 
@@ -393,7 +404,8 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
     float in_account = totalinCursor.getFloat(0);
     float out_account = totalOutCursor.getFloat(0);
     float total = in_account + out_account;
-    String total_foot = MessageFormat.format(getString(R.string.total_foot), in_account, out_account, total);
+    String total_foot = MessageFormat.format(getString(R.string.total_foot), String.valueOf(in_account), String.valueOf(out_account),
+        String.valueOf(total));
     TextView tview = (TextView) findViewById(R.id.name_foot);
     tview.setText(total_foot);
 
@@ -565,9 +577,9 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
         Calendar c = DateUtil.getStringToCalender(startBtn.getText().toString());
         new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
-            String day = dayOfMonth<10 ? "0"+dayOfMonth: dayOfMonth+"";
-            startBtn.setText(year + "-" +month+ "-" + day);
+            String month = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : (monthOfYear + 1) + "";
+            String day = dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth + "";
+            startBtn.setText(year + "-" + month + "-" + day);
           }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
       }
@@ -579,8 +591,8 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
         Calendar c = DateUtil.getStringToCalender(endBtn.getText().toString());
         new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
           public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            String month = (monthOfYear + 1)<10 ? "0"+(monthOfYear + 1): (monthOfYear + 1)+"";
-            String day = dayOfMonth<10 ? "0"+dayOfMonth: dayOfMonth+"";
+            String month = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : (monthOfYear + 1) + "";
+            String day = dayOfMonth < 10 ? "0" + dayOfMonth : dayOfMonth + "";
             endBtn.setText(year + "-" + month + "-" + day);
           }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
@@ -604,13 +616,13 @@ public class MainActivity extends TabActivity implements OnTabChangeListener {
         startActivity(mIntent);
       }
     });
-    
+
     zBtn.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         String start = startBtn.getText().toString();
         String end = endBtn.getText().toString();
-        if (start == null || start.length() <= 0 || end == null || end.length() <= 0 ||start.compareTo(end) >= 0) {
+        if (start == null || start.length() <= 0 || end == null || end.length() <= 0 || start.compareTo(end) >= 0) {
           Toast.makeText(MainActivity.this, "时间不正确!", Toast.LENGTH_SHORT).show();
         } else {
           Intent mIntent = new Intent(MainActivity.this, StatisticsActivty.class);

@@ -64,7 +64,7 @@ public class StatisticsActivty extends Activity {
     float in_account = totalinCursor.getFloat(0);
     float out_account = totalOutCursor.getFloat(0);
     float total = in_account + out_account;
-    String total_foot = MessageFormat.format(getString(R.string.total_foot), in_account, out_account, total);
+    String total_foot = MessageFormat.format(getString(R.string.total_foot), String.valueOf(in_account), String.valueOf(out_account), String.valueOf(total));
     TextView tview = (TextView) findViewById(R.id.s_foot);
     tview.setText(total_foot);
 

@@ -41,7 +41,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:textColor="#3C3C3C"
-			android:inputType="number"
+			android:numeric="decimal"
 			android:layout_weight="1" />
 	</LinearLayout>
 	<LinearLayout

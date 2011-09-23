@@ -7,7 +7,7 @@
 	<string	name="accounttime_title">时间</string>
 	<string	name="browse_no_accounts">没有账目记录，从现在开始吧，养成良好的理财习惯！</string>
   <string name="browse_no_items">没有记录！</string>
-  <string name="total_foot">共计收入：{0} 共计支出：{1} 余额：{2}</string>
+  <string name="total_foot">共计收入:{0} 支出:{1} 余额:{2}</string>
    <string name="edit_itemname">收支项：</string>
   <string name="edit_amount">金    额：</string>
   <string name="edit_time">时    间：</string>
