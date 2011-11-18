@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<group
-		android:id="@+id/group_a">
-		<item
-			android:id="@+id/account_add"
-			android:icon="@drawable/add"
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<group android:id="@+id/group_a">
+		<item android:id="@+id/account_add" android:icon="@drawable/add"
 			android:title="添加账目"></item>
-		<item
-			android:id="@+id/account_edit"
-			android:icon="@drawable/edit"
+		<item android:id="@+id/account_edit" android:icon="@drawable/edit"
 			android:title="编辑账目"></item>
-		<item
-			android:id="@+id/account_del"
-			android:icon="@drawable/delete"
+		<item android:id="@+id/account_del" android:icon="@drawable/delete"
 			android:title="删除账目"></item>
-    <item
-      android:id="@+id/about"
-      android:icon="@drawable/about"
-      android:title="关于"></item>
+		<item android:id="@+id/sys" android:icon="@drawable/sys"
+			android:title="备份/还原">
+			<menu>
+				<item android:id="@+id/backup" android:icon="@drawable/backup"
+					android:title="备份"></item>
+				<item android:id="@+id/restore" android:icon="@drawable/restore"
+					android:title="还原"></item>
+			</menu>
+		</item>
+		<item android:id="@+id/about" android:icon="@drawable/about"
+			android:title="关于"></item>
 	</group>
 </menu>

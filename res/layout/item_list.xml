@@ -7,7 +7,7 @@
 		<TextView
 			android:id="@+id/item_name"
 			android:layout_width="fill_parent"
-			android:layout_height="25px"
+			android:layout_height="25dp"
 			android:textSize="15sp"
 			android:textColor="#3C3C3C"
 			android:gravity="center_vertical" 

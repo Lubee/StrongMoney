@@ -8,7 +8,7 @@
 	<TextView
 		android:id="@+id/st_month"
 		android:layout_width="40dip"
-		android:layout_height="22px"
+		android:layout_height="25dp"
 		android:textSize="15sp"
 		android:textColor="#3C3C3C"
 		android:gravity="center|center_vertical">
@@ -16,7 +16,7 @@
 	<TextView
 		android:id="@+id/sr_amount"
 		android:layout_width="100dip"
-		android:layout_height="25px"
+		android:layout_height="25dp"
 		android:textColor="#00CC00"
 		android:textSize="15sp"
 		android:gravity="center|center_vertical">
@@ -24,7 +24,7 @@
 	<TextView
 		android:id="@+id/zc_amount"
 		android:layout_width="100dip"
-		android:layout_height="25px"
+		android:layout_height="25dp"
 		android:textColor="#00CC00"
 		android:textSize="15sp"
 		android:gravity="center|center_vertical">
@@ -32,7 +32,7 @@
 	<TextView
 		android:id="@+id/ye_amount"
 		android:layout_width="fill_parent"
-		android:layout_height="25px"
+		android:layout_height="25dp"
 		android:textColor="#00CC00"
 		android:textSize="15sp"
 		android:gravity="center|center_vertical">

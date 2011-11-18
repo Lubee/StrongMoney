@@ -8,7 +8,7 @@
 		<TextView
 			android:id="@+id/stati_name"
 			android:layout_width="140dip"
-			android:layout_height="22px"
+			android:layout_height="25dp"
 			android:textSize="15sp"
 			android:textColor="#3C3C3C"
 			 android:gravity="center|center_vertical" >
@@ -16,7 +16,7 @@
 		<TextView
 			android:id="@+id/stati_amount"
 			android:layout_width="100dip"
-			android:layout_height="25px"
+			android:layout_height="25dp"
 			android:textColor="#00CC00"
 			android:textSize="15sp"
 			 android:gravity="center|center_vertical">
